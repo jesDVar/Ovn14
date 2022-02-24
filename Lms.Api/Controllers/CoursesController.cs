@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Lms.Api.Data;
+using Lms.Data.Data;
 using Lms.Core.Entities;
 
-namespace Lms.Api.Controllers
+namespace Lms.Data.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
