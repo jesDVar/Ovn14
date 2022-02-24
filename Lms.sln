@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lms.Api", "Lms.Api\Lms.Api.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lms.Core", "Lms.Core\Lms.Core.csproj", "{5ED437D1-8E71-44E3-9874-3103F84D49D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lms.Data", "Lms.Data\Lms.Data.csproj", "{F8E81FCA-0013-4E5E-A1C8-AB750FFD0C36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5ED437D1-8E71-44E3-9874-3103F84D49D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5ED437D1-8E71-44E3-9874-3103F84D49D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5ED437D1-8E71-44E3-9874-3103F84D49D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8E81FCA-0013-4E5E-A1C8-AB750FFD0C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8E81FCA-0013-4E5E-A1C8-AB750FFD0C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8E81FCA-0013-4E5E-A1C8-AB750FFD0C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8E81FCA-0013-4E5E-A1C8-AB750FFD0C36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
