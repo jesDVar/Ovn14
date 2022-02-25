@@ -3,15 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Lms.Data.Data;
 using Lms.Core.Entities;
 
-namespace Lms.Data.Controllers
+namespace Lms.Api.Controllers
 {
-    public class ModulesController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ModulesController : ControllerBase
     {
         private readonly LmsApiContext _context;
 
@@ -20,135 +22,88 @@ namespace Lms.Data.Controllers
             _context = context;
         }
 
-        // GET: Modules
-        public async Task<IActionResult> Index()
+        // GET: api/Modules
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Module>>> GetModule()
         {
-            return View(await _context.Modules.ToListAsync());
+            return await _context.Module.ToListAsync();
         }
 
-        // GET: Modules/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: api/Modules/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Module>> GetModule(int id)
         {
-            if (id == null)
+            var @module = await _context.Module.FindAsync(id);
+
+            if (@module == null)
             {
                 return NotFound();
             }
 
-            var modules = await _context.Modules
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (modules == null)
+            return @module;
+        }
+
+        // PUT: api/Modules/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutModule(int id, Module @module)
+        {
+            if (id != @module.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            return View(modules);
-        }
+            _context.Entry(@module).State = EntityState.Modified;
 
-        // GET: Modules/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Modules/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,StartDate,CourseId")] Modules modules)
-        {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(modules);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(modules);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ModuleExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: Modules/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var modules = await _context.Modules.FindAsync(id);
-            if (modules == null)
-            {
-                return NotFound();
-            }
-            return View(modules);
-        }
-
-        // POST: Modules/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: api/Modules
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,StartDate,CourseId")] Modules modules)
+        public async Task<ActionResult<Module>> PostModule(Module @module)
         {
-            if (id != modules.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(modules);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ModulesExists(modules.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(modules);
-        }
-
-        // GET: Modules/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var modules = await _context.Modules
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (modules == null)
-            {
-                return NotFound();
-            }
-
-            return View(modules);
-        }
-
-        // POST: Modules/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var modules = await _context.Modules.FindAsync(id);
-            _context.Modules.Remove(modules);
+            _context.Module.Add(@module);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return CreatedAtAction("GetModule", new { id = @module.Id }, @module);
         }
 
-        private bool ModulesExists(int id)
+        // DELETE: api/Modules/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteModule(int id)
         {
-            return _context.Modules.Any(e => e.Id == id);
+            var @module = await _context.Module.FindAsync(id);
+            if (@module == null)
+            {
+                return NotFound();
+            }
+
+            _context.Module.Remove(@module);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool ModuleExists(int id)
+        {
+            return _context.Module.Any(e => e.Id == id);
         }
     }
 }

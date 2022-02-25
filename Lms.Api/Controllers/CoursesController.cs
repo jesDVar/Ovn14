@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Lms.Data.Data;
 using Lms.Core.Entities;
 
-namespace Lms.Data.Controllers
+namespace Lms.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

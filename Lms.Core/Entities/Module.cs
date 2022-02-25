@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lms.Core.Entities
 {
-    public class Modules
+    public class Module
     {
         public int Id { get; set; }
         public string Title { get; set; }
