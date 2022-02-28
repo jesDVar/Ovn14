@@ -18,13 +18,15 @@ namespace Lms.Data.Data
         public static async Task InitAsync(LmsApiContext db)
         {
             //+++++++++++++++++++++++++++++
-            //Lagt till if.../Ändrat från Module till Course, vet ej vilken det ska vara
 
             if (await db.Course.AnyAsync()) return;
 
             Faker faker = new Faker("sv");
 
-            var courses = GetCourses(); 
+            var courses = GetCourses();
+            await db.AddRangeAsync(courses);
+
+            await db.SaveChangesAsync();
 
             //DAVID
             //lägg ej i Idn
@@ -34,7 +36,22 @@ namespace Lms.Data.Data
 
         private static IEnumerable<Course> GetCourses()
         {
-            throw new NotImplementedException();
+            var courses = new List<Course>();
+
+            for (int i = 0; i < 20; i++) ;
+            {
+                var titel = faker.Company.CompanyName();
+                var startDate = faker.Date.Future();
+
+                var course = new Course
+                {
+                    Title = titel,
+                    StartDate = startDate,
+                };
+
+                courses.Add(course);
+            }
+            return courses;
         }
     }
 }
