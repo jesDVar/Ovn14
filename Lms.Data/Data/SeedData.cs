@@ -21,7 +21,7 @@ namespace Lms.Data.Data
 
             if (await db.Course.AnyAsync()) return;
 
-            Faker faker = new Faker("sv");
+            faker = new Faker("sv");
 
             var courses = GetCourses();
             await db.AddRangeAsync(courses);
@@ -38,20 +38,28 @@ namespace Lms.Data.Data
         {
             var courses = new List<Course>();
 
-            for (int i = 0; i < 20; i++) ;
+            for (int i = 0; i < 20; i++)
             {
-                var titel = faker.Company.CompanyName();
-                var startDate = faker.Date.Future();
-
-                var course = new Course
+                var course = new Course();
+                course.Title = faker.Company.CompanyName();
+                course.StartDate = faker.Date.Future();
+                course.Modules = new List<Module>
                 {
-                    Title = titel,
-                    StartDate = startDate,
-                };
+                    new Module()
+                    {Title = faker.Name.LastName(),
+                    StartDate = faker.Date.Future()
+                    },
 
-                courses.Add(course);
+                    new Module()
+                    {Title = faker.Name.LastName(),
+                    StartDate = faker.Date.Future()
+                    }
+
+                };        
+              
+                courses.Add(course);                                
             }
-            return courses;
+            return courses;            
         }
     }
 }
