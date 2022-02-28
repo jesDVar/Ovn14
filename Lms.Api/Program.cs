@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Lms.Data.Data;
+using Lms.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.SeedDataAsync().GetAwaiter().GetResults();
+app.SeedDataAsync().GetAwaiter().GetResult();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
