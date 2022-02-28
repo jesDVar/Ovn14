@@ -1,11 +1,6 @@
 ﻿using Bogus;
 using Lms.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lms.Data.Data
 {
@@ -13,11 +8,8 @@ namespace Lms.Data.Data
     {
         private static Faker faker;
 
-        //+++++++++++++++++++++++++++++++++
-        //Lagt till db
         public static async Task InitAsync(LmsApiContext db)
         {
-            //+++++++++++++++++++++++++++++
 
             if (await db.Course.AnyAsync()) return;
 
@@ -27,11 +19,6 @@ namespace Lms.Data.Data
             await db.AddRangeAsync(courses);
 
             await db.SaveChangesAsync();
-
-            //DAVID
-            //lägg ej i Idn
-            //skapa moduler först
-            //lägg in modulerna i Course.Modules
         }
 
         private static IEnumerable<Course> GetCourses()
@@ -55,11 +42,10 @@ namespace Lms.Data.Data
                     StartDate = faker.Date.Future()
                     }
 
-                };        
-              
-                courses.Add(course);                                
+                };
+                courses.Add(course);
             }
-            return courses;            
+            return courses;
         }
     }
 }
